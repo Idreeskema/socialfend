@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialFend - Focus Guard Extension</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite"/></circle><circle cx="40" cy="70" r="1" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite"/></circle></svg>');
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .how-it-works {
+            background: #f8f9fa;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .why-choose {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .schedule-info {
+            background: #e8f4f8;
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            text-align: center;
+            border-left: 5px solid #667eea;
+        }
+
+        .schedule-info h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .logo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iODAiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgeD0iNDAiIHk9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjEwIiB5PSIyMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI4MCIgcng9IjEwIiBmaWxsPSJ3aGl0ZSIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjQwIiByPSI4IiBmaWxsPSIjMzk3NEY2Ii8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjgiIGZpbGw9IiMxREE2NEIiLz4KPGJ4IHg9IjcwIiB5PSI1NSIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMiIGZpbGw9IiNEQzI2MjYiLz4KPGJ4IHg9IjcwIiB5PSI2NSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjMiIGZpbGw9IiNGMzY4QTciLz4KPC9zdmc+Cjwvc3ZnPg==" alt="SocialFend Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <h1>SocialFend</h1>
+            <p class="subtitle">Block distracting social media sites and boost your productivity during work hours</p>
+            <a href="#features" class="cta-button">Discover Features</a>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <h2 class="section-title">Powerful Focus Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Smart Blocking</h3>
+                <p>Automatically blocks distracting social media sites during your scheduled work hours without any complex setup.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏰</div>
+                <h3>Time-Based Control</h3>
+                <p>Works automatically Monday to Friday, 9 AM to 6 PM. No manual switching needed - just install and focus.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>One-Click Setup</h3>
+                <p>No firewall configurations or complex settings. Simply click to enable and start your focused work session.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Usage Statistics</h3>
+                <p>Track your focus sessions and see how many distracting sites you've successfully avoided.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Custom Site Blocking</h3>
+                <p>Add any website to your block list with just one click while browsing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Lightweight Solution</h3>
+                <p>No system-level changes or admin rights required. Works entirely within your browser.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Install Extension</h3>
+                <p>Download and install SocialFend from the Firefox Add-ons store with one click. Currently available for Firefox only - Chrome & Edge coming soon!</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Enable Focus Mode</h3>
+                <p>Click the extension icon and toggle Focus Mode on. That's it - no complex configuration needed.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Stay Productive</h3>
+                <p>During work hours, distracting sites are blocked automatically. Focus on what matters most.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Add Custom Sites</h3>
+                <p>Found a distracting site? Click "Add Current Site" to instantly add it to your block list.</p>
+            </div>
+        </div>
+
+        <div class="schedule-info">
+            <h3>🗓️ Automatic Schedule</h3>
+            <p><strong>Active Days:</strong> Monday through Friday</p>
+            <p><strong>Active Hours:</strong> 9:00 AM to 6:00 PM</p>
+            <p><strong>Weekends:</strong> Free browsing - your time to relax!</p>
+        </div>
+    </section>
+
+    <section class="section why-choose">
+        <h2 class="section-title">Why Choose SocialFend?</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>🚫 No Firewall Needed</h3>
+                <p>Unlike complex network solutions, SocialFend works at the browser level. No system administrator rights or firewall configuration required.</p>
+            </div>
+            <div class="why-card">
+                <h3>⚡ Instant Activation</h3>
+                <p>One click and you're protected. No waiting, no setup wizards, no technical knowledge needed.</p>
+            </div>
+            <div class="why-card">
+                <h3>🎯 Work-Life Balance</h3>
+                <p>Automatically respects your personal time. Blocks sites only during work hours, never on weekends.</p>
+            </div>
+            <div class="why-card">
+                <h3>🔒 Privacy Focused</h3>
+                <p>All data stays local on your device. We don't track your browsing habits or collect personal information.</p>
+            </div>
+            <div class="why-card">
+                <h3>💼 Professional Grade</h3>
+                <p>Designed for professionals who need reliable focus during work hours without IT department involvement.</p>
+            </div>
+            <div class="why-card">
+                <h3>🛠️ Zero Maintenance</h3>
+                <p>Set it once and forget it. The extension handles everything automatically based on your schedule.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div style="text-align: center; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 3rem; border-radius: 20px;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">Ready to Boost Your Productivity?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #666;">Join thousands of professionals who have regained control of their work focus.</p>
+            <a href="#" class="cta-button" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">Download for Firefox</a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Chrome & Edge versions coming soon!</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 style="margin-bottom: 1rem;">SocialFend</h3>
+            <p style="margin-bottom: 1rem;">Professional website blocking made simple</p>
+            
+            <div style="border-top: 1px solid #34495e; padding-top: 2rem; margin-top: 2rem;">
+                <p>Developed by <a href="https://idreeskema.github.io/portfolio/" target="_blank">Idrees Kema</a></p>
+                <p style="margin-top: 0.5rem;">Made with ❤️ in Kashmir</p>
+            </div>
+            
+            <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                <p>&copy; 2024 SocialFend. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('a[href="#features"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('features').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .step, .why-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
